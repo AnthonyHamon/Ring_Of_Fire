@@ -1,0 +1,13 @@
+<div class="game-field">
+
+    <div class="card-stack">
+        @for (item of game?.stack; track $index) {
+            <img [ngStyle]="{'right.px': $index * 5 }" src="/assets/img/cards/Card-Back-03.png" alt="">
+        }
+        <img (click)="pickCard()" class="top-card" [ngStyle]="{'right.px': numberOfCards.length * 5 }" src="/assets/img/cards/Card-Back-03.png" alt="">
+        @if (pickCardAnimation) {
+            <img (click)="pickCard()" class="pick-card" [ngStyle]="{'right.px': numberOfCards.length * 5 }" src="/assets/img/cards/{{currentCard}}.png" alt="">
+        }
+        
+    </div>
+</div> 
