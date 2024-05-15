@@ -17,7 +17,7 @@ export class GameComponent implements OnInit {
     37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51];
 
   pickCardAnimation = false;
-  game: Game | undefined // stric Class Initialization disable in tsconfig.json: "compilerOptions": {"strictPropertyInitialization": false,...}
+  game: Game | undefined// stric Class Initialization disable in tsconfig.json: "compilerOptions": {"strictPropertyInitialization": false,...}
   currentCard: string | undefined = '';
 
   constructor() {
@@ -31,20 +31,20 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-    console.log(this.game);
   }
 
 
   pickCard() {
     if (!this.pickCardAnimation) {
       this.currentCard = this.game?.stack.pop();
-      console.log(this.currentCard);
       this.pickCardAnimation = true;
-      this.game?.playedCards.push(this.currentCard);
+      console.log(this.game);
+      console.log(this.currentCard);
     }
 
     setTimeout(() => {
+      if (this.currentCard) this.game?.playedCards.push(this.currentCard);
       this.pickCardAnimation = false;
-    }, 1500);
+    }, 1000);
   }
 }
