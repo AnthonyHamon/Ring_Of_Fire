@@ -2,11 +2,19 @@ import { transition } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Game } from '../../models/game';
+import { PlayerComponent } from '../player/player.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialog,} from '@angular/material/dialog';
+import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { GameRulesComponent } from '../game-rules/game-rules.component';
+
+
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PlayerComponent, MatButtonModule, MatIconModule, DialogAddPlayerComponent, GameRulesComponent ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -17,10 +25,10 @@ export class GameComponent implements OnInit {
     37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51];
 
   pickCardAnimation = false;
-  game: Game | undefined// stric Class Initialization disable in tsconfig.json: "compilerOptions": {"strictPropertyInitialization": false,...}
+  game: Game | undefined;
   currentCard: string | undefined = '';
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
 
   }
 
@@ -35,9 +43,11 @@ export class GameComponent implements OnInit {
 
 
   pickCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game?.stack.pop();
+    if (!this.pickCardAnimation && this.game) {
+      this.currentCard = this.game.stack.pop();
       this.pickCardAnimation = true;
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
       console.log(this.game);
       console.log(this.currentCard);
     }
@@ -47,4 +57,13 @@ export class GameComponent implements OnInit {
       this.pickCardAnimation = false;
     }, 1000);
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+
+    dialogRef.afterClosed().subscribe((name:string) => {
+      if(name !=undefined) this.game?.players.push(name);
+    });
+  }
 }
+

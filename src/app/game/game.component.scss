@@ -48,3 +48,14 @@
         transform: scale(1.3) translateX(240px) translateY(-260px) rotate(10deg);
     }
 }
+
+.p-absolute{
+    position: absolute;
+    right: 0;
+}
+
+button{
+    position: absolute;
+    right: 32px;
+    bottom: 32px;
+}

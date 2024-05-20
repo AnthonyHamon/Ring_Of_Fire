@@ -1,5 +1,8 @@
-<div class="game-field">
+@for (player of game?.players; track $index) {
+    <app-player [Name]="player" [activePlayer]="$index == game?.currentPlayer" [ngStyle]="{'top.px': 100 + ($index * 90) }" class="p-absolute"></app-player>
+}
 
+<div class="game-field">
     <div class="card-stack">
         @for (item of game?.stack; track $index) {
             <img [ngStyle]="{'right.px': $index * 5 }" src="/assets/img/cards/Card-Back-03.png" alt="">
@@ -15,3 +18,9 @@
         }
     </div>
 </div> 
+
+<app-game-rules [card]="currentCard"></app-game-rules>
+
+<button mat-fab color="primary" (click)="openDialog()" >
+    <mat-icon>add</mat-icon>
+  </button>
